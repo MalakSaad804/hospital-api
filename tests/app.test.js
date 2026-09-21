@@ -8,6 +8,12 @@ describe("App basics (no database needed)", () => {
     expect(res.body.success).toBe(true);
   });
 
+  test("GET / -> 200 with endpoint list", async () => {
+    const res = await request(app).get("/");
+    expect(res.status).toBe(200);
+    expect(res.body.endpoints).toContain("/api/patients");
+  });
+
   test("unknown route -> 404 JSON", async () => {
     const res = await request(app).get("/api/unknown");
     expect(res.status).toBe(404);

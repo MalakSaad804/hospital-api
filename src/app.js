@@ -8,6 +8,14 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Hospital API",
+    endpoints: ["/api/patients", "/api/doctors", "/api/visits", "/health"],
+  });
+});
+
 app.get("/health", (req, res) => {
   res.status(200).json({ success: true, message: "API is running" });
 });
