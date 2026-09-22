@@ -111,6 +111,15 @@ describe("PUT /api/patients/:id", () => {
     expect(res.body.data.address).toBe("Peshawar");
   });
 
+  test("changing email to one already used -> 409", async () => {
+    const a = await request(app).post("/api/patients").send(validPatient());
+    const b = await request(app).post("/api/patients").send(validPatient());
+    const res = await request(app)
+      .put(`/api/patients/${b.body.data._id}`)
+      .send({ email: a.body.data.email });
+    expect(res.status).toBe(409);
+  });
+
   test("invalid data -> 400 (validators run on update)", async () => {
     const created = await request(app).post("/api/patients").send(validPatient());
     const res = await request(app)
